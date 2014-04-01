@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :signed_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user,   only: [:edit, :update]
+  before_action :new_or_create,  only: [:new, :create]
   before_action :admin_user,     only: :destroy
 
   def index
@@ -67,4 +68,9 @@ class UsersController < ApplicationController
       redirect_to(root_url) unless current_user.admin?
     end
 
+    def new_or_create
+      if signed_in?
+        redirect_to(root_url)
+      end
+    end
 end
